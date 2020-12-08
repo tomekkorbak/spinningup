@@ -16,6 +16,8 @@ import warnings
 from spinup.utils.mpi_tools import proc_id, mpi_statistics_scalar
 from spinup.utils.serialization_utils import convert_json
 
+import neptune
+
 color2num = dict(
     gray=30,
     red=31,
@@ -291,6 +293,7 @@ class Logger:
                 valstr = "%8.3g"%val if hasattr(val, "__float__") else val
                 print(fmt%(key, valstr))
                 vals.append(val)
+                neptune.log_metric(key, val)
             print("-"*n_slashes, flush=True)
             if self.output_file is not None:
                 if self.first_row:
